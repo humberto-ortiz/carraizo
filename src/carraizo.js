@@ -141,15 +141,29 @@ d3.text("https://waterdata.usgs.gov/pr/nwis/uv?cb_62616=on&format=rdb&site_no=50
 	y: Array(x.length).fill(39.70)
     };
 
-   /* var sequia = {
-	type: "scatter",
-	mode: "lines",
-	name: "2015",
-	x: x,
-	y: unpack(draught, 'depth')
-    }; */
+	  var observacion = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Observacion',
+	      x: x,
+	      y: Array(x.length).fill(38.50)
+	  };
+	  var ajustes = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Ajustes',
+	      x: x,
+	      y: Array(x.length).fill(37.20)
+	  };
+	  var control = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Control',
+	      x: x,
+	      y: Array(x.length).fill(31.50)
+	  };
 
-    var plotdata = [trace1, desborde, seguridad];
+    var plotdata = [trace1, desborde, seguridad, observacion, ajustes];
 
     //console.log(trace1);
     var layout = {
