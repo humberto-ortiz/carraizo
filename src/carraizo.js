@@ -111,9 +111,10 @@ function get2015() {
 var draught = get2015();
 
 console.log(draught);
+// https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01
+d3.text("https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01").then( function(string) {
 
-d3.text("https://waterdata.usgs.gov/pr/nwis/uv?cb_62616=on&format=rdb&site_no=50059000&period=" + period).then( function(string) {
-    var data = d3.tsvParseRows(string, parseusgs);
+    var data = d3.tsvParseRows(string, parsedv);
 
     var x = unpack(data, 'date'); 
     var trace1 = {
