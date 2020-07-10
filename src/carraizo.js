@@ -33,115 +33,39 @@ function unpack(rows, key) {
 var period = "30"; // days to plot
 
 function get2015() {
-//    var today = new Date();
-//    var end = new Date(today.setFullYear(2015));
-//    var start = new Date(end - (period * 24 * 60 * 60 * 1000));
-    var begin_date = "2015-01-01";
-    var end_date = "2015-12-31";
-    
-    var url = "https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date="+begin_date+"&end_date="+end_date;
-    console.log(url);
-    
-    d3.text(url).then(function(string) {
-	// console.log(string);
-	var data = d3.tsvParseRows(string, parsedv);
+    var url = "2015-carraizo-dv.tsv";
 
-	// console.log(data);
-	var x = unpack(data, 'date'); 
-	var sequia = {
-	    type: "scatter",
-	    mode: "lines",
-	    name: "2015",
-	    x: x,
-	    y: unpack(data, 'depth')
-	};
-
-	var desborde = {
-	    type: "scatter",
-	    mode: "lines",
-	    name: 'Desborde',
-	    x: x,
-	    y: Array(x.length).fill(40.80)
-	};
-
-	var seguridad = {
-	    type: "scatter",
-	    mode: "lines",
-	    name: 'Seguridad',
-	    x: x,
-	    y: Array(x.length).fill(39.70)
-	};
-	var observacion = {
-	    type: "scatter",
-	    mode: "lines",
-	    name: 'Observacion',
-	    x: x,
-	    y: Array(x.length).fill(38.50)
-	};
-	var ajustes = {
-	    type: "scatter",
-	    mode: "lines",
-	    name: 'Ajustes',
-	    x: x,
-	    y: Array(x.length).fill(37.20)
-	};
-	var control = {
-	    type: "scatter",
-	    mode: "lines",
-	    name: 'Control',
-	    x: x,
-	    y: Array(x.length).fill(31.50)
-	};
-
-	var plotdata = [sequia, desborde, seguridad, observacion, ajustes, control];
-
-	//console.log(trace1);
-	var layout = {
-	    title: 'Depth of Carraizo during the draught of 2015',
-	    yaxis: {
-		title: 'Depth (meters)'
-	    }
-	};
-
-	Plotly.newPlot('Draught', plotdata, layout);
-	
+    return d3.text(url).then(function(string) {
+	      var data = d3.tsvParseRows(string, parsedv);
+        plotdata('Draught', 'Depth of Carraizo during the draught of 2015', data);
     });
 }
 
-var draught = get2015();
+function plotdata(name, title, data) {
+	  var x = unpack(data, 'date'); 
+	  var sequia = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: "Carraizo",
+	      x: x,
+	      y: unpack(data, 'depth')
+	  };
 
-console.log(draught);
-// https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01
-d3.text("https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01").then( function(string) {
+	  var desborde = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Desborde',
+	      x: x,
+	      y: Array(x.length).fill(40.80)
+	  };
 
-    var data = d3.tsvParseRows(string, parsedv);
-
-    var x = unpack(data, 'date'); 
-    var trace1 = {
-	type: "scatter",
-	mode: "lines",
-	name: 'Carraizo',
-	x: x,
-	y: unpack(data, 'depth'),
-	line: {color: '#17BECF'}
-    };
-
-    var desborde = {
-	type: "scatter",
-	mode: "lines",
-	name: 'Desborde',
-	x: x,
-	y: Array(x.length).fill(40.80)
-    };
-
-    var seguridad = {
-	type: "scatter",
-	mode: "lines",
-	name: 'Seguridad',
-	x: x,
-	y: Array(x.length).fill(39.70)
-    };
-
+	  var seguridad = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Seguridad',
+	      x: x,
+	      y: Array(x.length).fill(39.70)
+	  };
 	  var observacion = {
 	      type: "scatter",
 	      mode: "lines",
@@ -164,15 +88,30 @@ d3.text("https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059
 	      y: Array(x.length).fill(31.50)
 	  };
 
-    var plotdata = [trace1, desborde, seguridad, observacion, ajustes];
+	  var plotdata = [sequia, desborde, seguridad, observacion, ajustes, control];
 
-    //console.log(trace1);
-    var layout = {
-	title: 'Depth of Carraizo',
-	yaxis: {
-	    title: 'Depth (meters)'
-	}
-    };
+	//console.log(trace1);
+	  var layout = {
+	      title: title,
+	      yaxis: {
+		        title: 'Depth (meters)'
+	      }
+	  };
 
-    Plotly.newPlot('myDiv', plotdata, layout);
-});
+	  Plotly.newPlot(name, plotdata, layout);
+	
+}
+
+get2015();
+
+// https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01
+
+function get2020() {
+    d3.text("https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01").then( function(string) {
+
+        var data = d3.tsvParseRows(string, parsedv);
+        plotdata('Carraizo', "Current depth of Carraizo (2020)", data);
+    });
+}
+
+get2020();
