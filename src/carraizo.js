@@ -106,12 +106,12 @@ get2015();
 
 // https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01
 
-function get2021() {
-    d3.text("https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2021-01-01").then( function(string) {
+function getyear(year) {
+    d3.text(`https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=${year}-01-01`).then( function(string) {
 
         var data = d3.tsvParseRows(string, parsedv);
-        plotdata('Carraizo', "Current depth of Carraizo (2021)", data);
+        plotdata('Carraizo', `Current depth of Carraizo (${year})`, data);
     });
 }
 
-get2021();
+getyear("2022");
