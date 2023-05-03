@@ -109,10 +109,16 @@ get2015();
 // try
 // https://waterservices.usgs.gov/nwis/iv/?sites=50059000&parameterCd=72376&startDT=2023-01-01T00:00-04:00&siteStatus=all&format=rdb
 
-function getyear(year) {
-    d3.text(`https://waterservices.usgs.gov/nwis/iv/?sites=50059000&parameterCd=72376&startDT=${year}-01-01T00:00-0400&siteStatus=all&format=rdb`).then( function(string) {
+// moved to
+// https://nwis.waterservices.usgs.gov/nwis/iv/?sites=50059000&parameterCd=72376&startDT=2023-01-01T00:00-0400&siteStatus=all&format=rdb
 
-        var data = d3.tsvParseRows(string, parseusgs);
+// new data
+// https://waterdata.usgs.gov/nwis/dv?cb_72379=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2023-01-01
+
+function getyear(year) {
+    d3.text(`https://waterdata.usgs.gov/nwis/dv?cb_72379=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=${year}-01-01`).then( function(string) {
+
+        var data = d3.tsvParseRows(string, parsedv);
         plotdata('Carraizo', `Current depth of Carraizo (${year})`, data);
     });
 }
