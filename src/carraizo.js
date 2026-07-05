@@ -40,9 +40,14 @@ function parsedv(d, i) {
 }
 
 function parsedv2026(d, i) {
-    return {
-	date: new Date(d[7]),
-	depth: +d[8] / 3.2808399 // convert feet to meters
+    // console.log(d[6], d[7]);
+    if ('x' == d[0]) {
+	return null
+    } else {
+	return {
+	    date: new Date(d[6]),
+	    depth: +d[7] / 3.2808399 // convert feet to meters
+	}
     }
 }
 
@@ -62,7 +67,7 @@ function get2015() {
 }
 
 function plotdata(name, title, data) {
-	  var x = unpack(data, 'time'); 
+	  var x = unpack(data, 'date'); 
 	  var sequia = {
 	      type: "scatter",
 	      mode: "lines",
@@ -147,6 +152,8 @@ function getyear2(year) {
     d3.text(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=${year}-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ`).then( function(string) {
 
         var data = d3.csvParseRows(string, parsedv2026);
+	data.sort((a,b) => a.date - b.date);
+	// console.log(data.slice(0,10));
         plotdata('Carraizo', `Current depth of Carraizo (${year})`, data);
     });
 }
