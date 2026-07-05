@@ -4,6 +4,19 @@
 // https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=356
 // https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2014-04-25&end_date=2016-04-25
 
+// new data via API
+
+// https://api.waterdata.usgs.gov/ogcapi/v0/collections/continuous/items?f=json&lang=en-US&limit=10&skipGeometry=false&offset=0&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ
+// /collections/daily/items/{featureId}
+
+// daily values
+// https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=json&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=2026-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ
+
+// daily value csv
+// https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=2026-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ
+// x,y,time_series_id,monitoring_location_id,parameter_code,statistic_id,time,value,unit_of_measure,approval_status,qualifier,last_modified
+
+
 function parseusgs(d, i) {
     if (d[0] != "USGS") {
 	return null
@@ -26,6 +39,13 @@ function parsedv(d, i) {
     }
 }
 
+function parsedv2026(d, i) {
+    return {
+	date: new Date(d[7]),
+	depth: +d[8] / 3.2808399 // convert feet to meters
+    }
+}
+
 function unpack(rows, key) {
   return rows.map(function(row) { return row[key]; });
 }
@@ -42,7 +62,7 @@ function get2015() {
 }
 
 function plotdata(name, title, data) {
-	  var x = unpack(data, 'date'); 
+	  var x = unpack(data, 'time'); 
 	  var sequia = {
 	      type: "scatter",
 	      mode: "lines",
@@ -123,4 +143,12 @@ function getyear(year) {
     });
 }
 
-getyear("2026");
+function getyear2(year) {
+    d3.text(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=${year}-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ`).then( function(string) {
+
+        var data = d3.csvParseRows(string, parsedv2026);
+        plotdata('Carraizo', `Current depth of Carraizo (${year})`, data);
+    });
+}
+
+getyear2("2026");
