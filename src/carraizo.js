@@ -41,7 +41,7 @@ function parsedv(d, i) {
 
 function parsedv2026(d, i) {
     // console.log(d[6], d[7]);
-    if ('x' == d[0]) {
+    if ('72379' != d[4]) {
 	return null
     } else {
 	return {
@@ -153,7 +153,7 @@ function getyear2(year) {
 
         var data = d3.csvParseRows(string, parsedv2026);
 	data.sort((a,b) => a.date - b.date);
-	// console.log(data.slice(0,10));
+	// console.log(data);
         plotdata('Carraizo', `Current depth of Carraizo (${year})`, data);
     });
 }
