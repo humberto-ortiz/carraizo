@@ -149,7 +149,7 @@ function getyear(year) {
 }
 
 function getyear2(year) {
-    d3.text(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=${year}-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ`).then( function(string) {
+    d3.text(`https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=400&skipGeometry=true&offset=0&datetime=${year}-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ`).then( function(string) {
 
         var data = d3.csvParseRows(string, parsedv2026);
 	data.sort((a,b) => a.date - b.date);
