@@ -13,7 +13,7 @@
 // https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=json&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=2026-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ
 
 // daily value csv
-// https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=2026-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZ
+// https://api.waterdata.usgs.gov/ogcapi/v0/collections/daily/items?f=csv&lang=en-US&limit=365&skipGeometry=true&offset=0&datetime=2026-01-01T04%3A00%3A00Z%2F..&monitoring_location_id=USGS-50059000&api_key=mLC3Dm3AkNJMlLNoYK9pHhkmZT2G54h89ZzOCkyZw
 // x,y,time_series_id,monitoring_location_id,parameter_code,statistic_id,time,value,unit_of_measure,approval_status,qualifier,last_modified
 
 
@@ -41,12 +41,12 @@ function parsedv(d, i) {
 
 function parsedv2026(d, i) {
     // console.log(d[6], d[7]);
-    if ('72379' != d[4]) {
+    if ('72375' != d[4]) {
 	return null
     } else {
 	return {
-	    date: new Date(d[6]),
-	    depth: +d[7] / 3.2808399 // convert feet to meters
+	    date: new Date(d[6]+"T05:30:00"),
+	    depth: +d[7] / 3.28084 // convert feet to meters
 	}
     }
 }
