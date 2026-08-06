@@ -127,6 +127,68 @@ function plotdata(name, title, data) {
 	
 }
 
+// en algún momento AAA ajustó los niveles (¿luego del dragado?)
+function plotdata2026(name, title, data) {
+	  var x = unpack(data, 'date'); 
+	  var sequia = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: "Carraizo",
+	      x: x,
+	      y: unpack(data, 'depth')
+	  };
+
+	  var desborde = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Desborde',
+	      x: x,
+	      y: Array(x.length).fill(40.95)
+	  };
+
+	  var seguridad = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Seguridad',
+	      x: x,
+	      y: Array(x.length).fill(39.70)
+	  };
+	  var observacion = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Observacion',
+	      x: x,
+	      y: Array(x.length).fill(38.50)
+	  };
+	  var ajustes = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Ajustes',
+	      x: x,
+	      y: Array(x.length).fill(37.00)
+	  };
+	  var control = {
+	      type: "scatter",
+	      mode: "lines",
+	      name: 'Control',
+	      x: x,
+	      y: Array(x.length).fill(30.00)
+	  };
+
+	  var plotdata = [sequia, desborde, seguridad, observacion, ajustes, control];
+
+	//console.log(trace1);
+	  var layout = {
+	      title: title,
+	      yaxis: {
+		        title: 'Depth (meters)'
+	      }
+	  };
+
+	  Plotly.newPlot(name, plotdata, layout);
+	
+}
+
 get2015();
 
 // https://waterdata.usgs.gov/nwis/dv?cb_62614=on&format=rdb&site_no=50059000&referred_module=sw&period=&begin_date=2020-01-01
@@ -154,7 +216,7 @@ function getyear2(year) {
         var data = d3.csvParseRows(string, parsedv2026);
 	data.sort((a,b) => a.date - b.date);
 	// console.log(data);
-        plotdata('Carraizo', `Current depth of Carraizo (${year})`, data);
+        plotdata2026('Carraizo', `Current depth of Carraizo (${year})`, data);
     });
 }
 
